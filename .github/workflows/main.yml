@@ -1,23 +1,25 @@
 name: Upload Website
 
 on:
- push:
-   branches:
-   - main
+  push:
+    branches:
+      - main
 
 jobs:
- deploy:
-   runs-on: ubuntu-latest
-   steps:
-   - name: Checkout
-     uses: actions/checkout@v1
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        # ⚠️ RECOMMENDED FIX: Upgrade to v4 to eliminate deprecation warnings
+        uses: actions/checkout@v4 
 
-   - name: Configure AWS Credentials
-     uses: aws-actions/configure-aws-credentials@v1
-     with:
-       aws-access-key-id: ${{ secrets.AccessKey }}
-       aws-secret-access-key: ${{ secrets.SecretKey }}
-       aws-region: us-east-1
+      - name: Configure AWS Credentials
+        # ⚠️ RECOMMENDED FIX: Upgrade to v4 to eliminate deprecation warnings
+        uses: aws-actions/configure-aws-credentials@v4 
+        with:
+          aws-access-key-id: ${{ secrets.AccessKey }}
+          aws-secret-access-key: ${{ secrets.SecretKey }}
+          aws-region: us-east-1
 
-   - name: Deploy static site to S3 bucket
-     run: aws s3 sync . s3://demo-cicd-janak --delete
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync . s3://demo-cicd-janak --delete
